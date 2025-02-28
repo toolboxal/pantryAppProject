@@ -1,4 +1,4 @@
-import Form from '@/components/Form'
+import Form from '@/components/form/Form'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { blue, gray } from '@/constants/colors'

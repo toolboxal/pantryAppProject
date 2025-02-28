@@ -47,8 +47,12 @@ import {
 import { migrate } from 'drizzle-orm/expo-sqlite/migrator'
 import db, { expoDB } from '@/db/db'
 import migrations from '@/drizzle/migrations'
+import { seedDatabase } from '@/db/seeding'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 SplashScreen.preventAutoHideAsync()
+
+const queryClient = new QueryClient()
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -64,6 +68,8 @@ export default function RootLayout() {
   useEffect(() => {
     async function prepare() {
       await migrate(db, migrations)
+      await seedDatabase()
+
       if (loaded || error) {
         SplashScreen.hideAsync()
       }
@@ -78,9 +84,11 @@ export default function RootLayout() {
   }
   return (
     <SQLiteProvider databaseName="app.db">
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
-      </Stack>
+      <QueryClientProvider client={queryClient}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+        </Stack>
+      </QueryClientProvider>
     </SQLiteProvider>
   )
 }
