@@ -3,15 +3,15 @@ import { sql } from 'drizzle-orm'
 import { locations } from './schema'
 
 const defaultLocations = [
-  { room: 'balcony', spotDirection: 'top', spotNoun: 'shelf' },
-  { room: 'kitchen', spotDirection: 'beside', spotNoun: 'fridge' },
-  { room: 'bathroom', spotDirection: 'under', spotNoun: 'sink' },
-  { room: 'store_room', spotDirection: 'top', spotNoun: 'cabinet' },
-  { room: 'laundry', spotDirection: 'above', spotNoun: 'washer' },
-  { room: 'pantry', spotDirection: '1st', spotNoun: 'shelf' },
-  { room: 'garage', spotDirection: 'left', spotNoun: 'rack' },
-  { room: 'master_bedroom', spotDirection: 'under', spotNoun: 'bed' },
-  { room: 'study_room', spotDirection: 'right', spotNoun: 'corner' },
+  { room: 'balcony', direction: 'top', noun: 'shelf' },
+  { room: 'kitchen', direction: 'beside', noun: 'fridge' },
+  { room: 'bathroom', direction: 'under', noun: 'sink' },
+  { room: 'store_room', direction: 'top', noun: 'cabinet' },
+  { room: 'laundry', direction: 'above', noun: 'washer' },
+  { room: 'pantry', direction: '1st', noun: 'shelf' },
+  { room: 'garage', direction: 'left', noun: 'rack' },
+  { room: 'master_bedroom', direction: 'under', noun: 'bed' },
+  { room: 'study_room', direction: 'right', noun: 'corner' },
 ]
 
 export const seedDatabase = async () => {
@@ -28,7 +28,7 @@ export const seedDatabase = async () => {
 export const getTagOptions = async () => {
   const allLocations = await db.select().from(locations)
   const rooms = [...new Set(allLocations.map((l) => l.room))]
-  const directions = [...new Set(allLocations.map((l) => l.spotDirection))]
-  const nouns = [...new Set(allLocations.map((l) => l.spotNoun))]
+  const directions = [...new Set(allLocations.map((l) => l.direction))]
+  const nouns = [...new Set(allLocations.map((l) => l.noun))]
   return { rooms, directions, nouns }
 }

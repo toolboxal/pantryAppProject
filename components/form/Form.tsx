@@ -26,6 +26,7 @@ import PagerView from 'react-native-pager-view'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { capitalize } from '@/utils/capitalize'
 import FormAddBtn from '../UI/FormAddBtn'
+import AddLocModal from './AddLocModal'
 
 const categoryArray = ['food', 'hygiene', 'supplies', 'miscellaneous']
 
@@ -38,6 +39,9 @@ const Form = () => {
   const [dateExpiry, setDateExpiry] = useState(add(today, { months: 3 }))
   const [openModal, setOpenModal] = useState(false)
   const [openAddNewModal, setOpenAddNewModal] = useState(false)
+  const [toAddLoc, setToAddLoc] = useState<
+    'room' | 'noun' | 'direction' | undefined
+  >()
 
   const [storeSelection, setstoreSelection] = useState({
     room: 'kitchen',
@@ -168,17 +172,17 @@ const Form = () => {
                   </Text>
                   <Text style={styles.dateLabels}>Date Expiry</Text>
                 </Pressable>
-                <FormDateModal
-                  openModal={openModal}
-                  setOpenModal={setOpenModal}
-                  date={dateOption === 1 ? dateBought : dateExpiry}
-                  setDate={dateOption === 1 ? setDateBought : setDateExpiry}
-                  today={today}
-                  dateOption={dateOption}
-                  dateBought={dateBought}
-                  dateExpiry={dateExpiry}
-                />
               </View>
+              <FormDateModal
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                date={dateOption === 1 ? dateBought : dateExpiry}
+                setDate={dateOption === 1 ? setDateBought : setDateExpiry}
+                today={today}
+                dateOption={dateOption}
+                dateBought={dateBought}
+                dateExpiry={dateExpiry}
+              />
               <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.keyboardAvoidView}
@@ -195,17 +199,17 @@ const Form = () => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <View key={2}>
+      <View key={2} style={{ flex: 1 }}>
         <View style={styles.formSpine}>
           <View style={styles.locationContainer}>
             <Text style={styles.locationQn}>
               Where do you want to store this item?
             </Text>
-            <Text style={styles.locationQn}>{`${capitalize(
+            {/* <Text style={styles.locationQn}>{`${capitalize(
               storeSelection.room
             )}, ${capitalize(storeSelection.direction)} ${capitalize(
               storeSelection.noun
-            )}`}</Text>
+            )}`}</Text> */}
             <View style={styles.locationLabelContainer}>
               <Text
                 style={[
@@ -216,8 +220,9 @@ const Form = () => {
                 ROOM
               </Text>
               <FormAddBtn
-                selectType={'room'}
                 setOpenAddNewModal={setOpenAddNewModal}
+                setToAddLoc={setToAddLoc}
+                selectType="room"
               />
             </View>
             <View style={styles.chipsContainer}>
@@ -235,14 +240,21 @@ const Form = () => {
             </View>
           </View>
           <View style={styles.locationContainer}>
-            <Text
-              style={[
-                styles.locationQn,
-                { fontFamily: bitter.Bold, fontSize: size.sm },
-              ]}
-            >
-              SPOT
-            </Text>
+            <View style={styles.locationLabelContainer}>
+              <Text
+                style={[
+                  styles.locationQn,
+                  { fontFamily: bitter.Bold, fontSize: size.sm },
+                ]}
+              >
+                SPOT
+              </Text>
+              <FormAddBtn
+                setOpenAddNewModal={setOpenAddNewModal}
+                setToAddLoc={setToAddLoc}
+                selectType="noun"
+              />
+            </View>
             <View style={styles.chipsContainer}>
               {nouns.map((noun) => {
                 const formatted = noun.split('_').join(' ').toUpperCase()
@@ -259,14 +271,21 @@ const Form = () => {
             </View>
           </View>
           <View style={styles.locationContainer}>
-            <Text
-              style={[
-                styles.locationQn,
-                { fontFamily: bitter.Bold, fontSize: size.sm },
-              ]}
-            >
-              EXACTLY WHERE
-            </Text>
+            <View style={styles.locationLabelContainer}>
+              <Text
+                style={[
+                  styles.locationQn,
+                  { fontFamily: bitter.Bold, fontSize: size.sm },
+                ]}
+              >
+                EXACTLY WHERE
+              </Text>
+              <FormAddBtn
+                setOpenAddNewModal={setOpenAddNewModal}
+                setToAddLoc={setToAddLoc}
+                selectType="direction"
+              />
+            </View>
             <View style={styles.chipsContainer}>
               {directions.map((direction) => {
                 const formatted = direction.split('_').join(' ').toUpperCase()
@@ -282,6 +301,11 @@ const Form = () => {
               })}
             </View>
           </View>
+          <AddLocModal
+            openAddNewModal={openAddNewModal}
+            setOpenAddNewModal={setOpenAddNewModal}
+            toAddLoc={toAddLoc}
+          />
         </View>
       </View>
     </PagerView>

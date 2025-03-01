@@ -5,8 +5,8 @@ import { relations } from 'drizzle-orm'
 export const locations = sqliteTable('locations', {
   id: int('id').primaryKey({ autoIncrement: true }),
   room: text('room').notNull(),
-  spotDirection: text('spot_direction').notNull(),
-  spotNoun: text('spot_noun').notNull(),
+  direction: text('direction').notNull(),
+  noun: text('noun').notNull(),
 })
 
 export const locationsRelations = relations(locations, ({ many }) => ({
