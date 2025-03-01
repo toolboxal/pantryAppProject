@@ -71,5 +71,20 @@
     "react-test-renderer": "18.3.1",
     "typescript": "^5.3.3"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "enabled": true,
+        "exclude": [
+          "@hookform/resolvers",
+          "date-fns",
+          "drizzle-zod",
+          "drizzle-orm",
+          "expo-drizzle-studio-plugin"
+        ],
+        "listUnknownPackages": true
+      }
+    }
+  }
 }

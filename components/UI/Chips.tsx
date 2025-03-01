@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: gray[400],
+    borderColor: gray[500],
     alignSelf: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   chipText: {
     fontFamily: poppins.Regular,
     fontSize: size.xs,
-    color: gray[400],
+    color: gray[500],
   },
   selectedChipText: {
     fontFamily: poppins.Regular,
