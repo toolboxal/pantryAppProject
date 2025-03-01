@@ -21,15 +21,13 @@ export const pantryItems = sqliteTable('pantry_items', {
   cost: text('cost').notNull().default('0'),
   consumed: int('consumed', { mode: 'boolean' }).default(false),
   quantity: text('quantity').notNull().default('1'),
-  amount: text('amount', { enum: ['empty', 'low', 'half', 'full'] })
-    .notNull()
-    .default('full'),
+  amount: text('amount', { enum: ['empty', 'low', 'half', 'full'] }).default(
+    'full'
+  ),
   category: text('category', {
     enum: ['food', 'hygiene', 'supplies', 'miscellaneous'],
-  }).notNull(),
-  locationId: int('location_id')
-    .notNull()
-    .references(() => locations.id),
+  }).default('food'),
+  locationId: int('location_id').references(() => locations.id),
 })
 
 export const pantryItemsRelations = relations(pantryItems, ({ one }) => ({
@@ -43,13 +41,16 @@ export const locationInsertSchema = createInsertSchema(locations)
 export const pantryItemsInsertSchema = createInsertSchema(pantryItems, {
   name: (schema) =>
     schema
-      .min(1, { message: 'Item is required.' })
-      .max(40, { message: 'Exceeds max length.' }),
+      .min(1, { message: 'Name cannot be blank' })
+      .max(40, { message: 'Exceeds max length' }),
   quantity: (schema) =>
-    schema.min(1, { message: 'Minimum 1 quantity.' }).default('1'),
+    schema
+      .regex(/^[1-9]\d*$/, { message: 'Invalid quantity' })
+      .min(1, { message: 'Minimum 1 quantity' })
+      .default('1'),
   cost: (schema) =>
     schema.regex(/^(?:\d+(?:[.,]\d{0,2})?|[.,]\d{1,2})$/, {
-      message: 'Invalid cost.',
+      message: 'Invalid cost',
     }),
 }).pick({
   name: true,

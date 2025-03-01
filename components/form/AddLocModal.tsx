@@ -48,7 +48,7 @@ const AddLocModal = ({
   })
 
   const formatInput = (input: string): string => {
-    return input.toLowerCase().replace(/\s+/g, '_')
+    return input.trim().toLowerCase().replace(/\s+/g, '_')
   }
 
   const onSubmit = async (data: z.infer<typeof locationInsertSchema>) => {
@@ -92,7 +92,7 @@ const AddLocModal = ({
       return
     }
 
-    console.log(data)
+    // console.log(data)
     try {
       switch (toAddLoc) {
         case 'room':

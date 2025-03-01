@@ -36,6 +36,13 @@
       "when": 1740797403965,
       "tag": "0004_flashy_angel",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1740842544715,
+      "tag": "0005_overconfident_the_leader",
+      "breakpoints": true
     }
   ]
 }
